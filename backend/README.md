@@ -16,4 +16,4 @@ pip install -r requirements.txt
 
 # 5. Run your FastAPI server
 
-uvicorn LoginPage:app --reload
+uvicorn LoginPage:app --reload --host 0.0.0.0
