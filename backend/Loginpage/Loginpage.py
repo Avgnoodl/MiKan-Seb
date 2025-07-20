@@ -6,12 +6,18 @@ from typing import Optional
 
 from databases import Database
 from sqlalchemy import Table, Column, String, MetaData
+import os
+from dotenv import load_dotenv
 
 # -------------------- Database Setup -------------------- #
-# Please open your pgAdmin and RESTORE the file Logindatabase into you pfAdmin database #
-# Default database name is Logindatabase and password is password #
+# Please open your pgAdmin and RESTORE the file Logindatabase into your pgAdmin database
+# Default database name is Logindatabase and password is password
 
-DATABASE_URL = "postgresql://postgres:password@localhost/Logindatabase"
+load_dotenv()
+DATABASE_URL = os.getenv(
+    "LOGIN_DATABASE_URL",
+    "postgresql://postgres:password@localhost/Logindatabase",
+)
 database = Database(DATABASE_URL)
 metadata = MetaData()
 
