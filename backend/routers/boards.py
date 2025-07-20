@@ -1,6 +1,10 @@
 from fastapi import *
 from database import *
 from model import *
+import os
+
+# Base URL for constructing links to attachments
+ATTACHMENT_BASE_URL = os.getenv("ATTACHMENT_BASE_URL", "http://localhost:8000")
 
 router = APIRouter()
 db_dependency = Annotated[Session, Depends(get_db)]
@@ -106,10 +110,10 @@ def get_project_boards(db: db_dependency):
 
             if row["attachment_id"]:
                 task_tracker[task_id]["attachments"].append({
-					"name": row["attachment_name"],
-					"url": f"http://127.0.0.1:8000/attachments/download_file/{row['attachment_id']}",
-					"type": "link"
-				})
+                    "name": row["attachment_name"],
+                    "url": f"{ATTACHMENT_BASE_URL}/attachments/download_file/{row['attachment_id']}",
+                    "type": "link",
+                })
 
             if row["ai_attachment_name"]:
                 task_tracker[task_id]["ai_attachments"].append({

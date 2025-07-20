@@ -1,12 +1,22 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
+import os
+from dotenv import load_dotenv
 
-DB_USER = "postgres"
-DB_PASSWORD = "password"
-DB_HOST = "localhost"
-DB_PORT = 5432
-DB_NAME = "mikan_db"
-DB_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+# Load environment variables from a .env file if present
+load_dotenv()
+
+DB_USER = os.getenv("DB_USER", "postgres")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = int(os.getenv("DB_PORT", "5432"))
+DB_NAME = os.getenv("DB_NAME", "mikan_db")
+
+# Allow providing full database URL via environment variable
+DB_URL = os.getenv(
+    "DB_URL",
+    f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+)
 
 engine = create_engine(DB_URL)
 Base = declarative_base()
