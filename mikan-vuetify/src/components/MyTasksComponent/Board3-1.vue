@@ -122,18 +122,19 @@
        :disabled="visitorMode"
      >
        <template #item="{ element: stage, index: sIndex }">
-         <Stage3
-          :stage="isFilterApplied
-                   ? { ...stage, tasks: filteredStages[sIndex].tasks }
-                   : stage"
-           :boardIndex="boardIndex"
-           :stageIndex="sIndex"
-           :visitorMode="visitorMode"
-           :selectedAssignee="selectedAssignee"
-          @rename-stage="(sIdx, title) => $emit('rename-stage', boardIndex, sIdx, title)"
-          @add-task="() => $emit('add-task', boardIndex, sIndex)"
-          @open-task-dialog="tIdx => $emit('open-task-dialog', boardIndex, sIndex, tIdx)"
-          @delete-stage="sIdx => $emit('delete-stage', boardIndex, sIdx)"
+          <Stage3
+            :stage="isFilterApplied
+                     ? { ...stage, tasks: filteredStages[sIndex].tasks }
+                     : stage"
+            :boardIndex="boardIndex"
+            :stageIndex="sIndex"
+            :visitorMode="visitorMode"
+            :projectId="board.id"
+            :selectedAssignee="selectedAssignee"
+            @rename-stage="(sIdx, title) => $emit('rename-stage', boardIndex, sIdx, title)"
+            @add-task="() => $emit('add-task', boardIndex, sIndex)"
+            @open-task-dialog="tIdx => $emit('open-task-dialog', boardIndex, sIndex, tIdx)"
+            @delete-stage="sIdx => $emit('delete-stage', boardIndex, sIdx)"
 		  @task-dropped="taskDropped"
          />
        </template>

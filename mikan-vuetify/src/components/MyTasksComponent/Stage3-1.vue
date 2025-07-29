@@ -100,7 +100,8 @@ const props = defineProps({
   boardIndex: Number,
   stageIndex: Number,
   visitorMode: Boolean,
-  selectedAssignee: String
+  selectedAssignee: String,
+  projectId: Number
 })
 const emit = defineEmits(['add-task','delete-stage','open-task-dialog','rename-stage', 'task-dropped'])
 
@@ -127,13 +128,13 @@ function onTaskDrop(evt) {
     const newStatus = reverseStageMap[props.stage.title] || "to-do";
 
     // Only send update if status actually changed
-    if (task.status !== newStatus) {
-      const payload = {
-        assignee_id: task.assignee_id || 0,
-        project_id: props.boardIndex + 1,
-        title: task.title || "",
-        description: task.description || "",
-        due_date: task.dueDate || "",
+      if (task.status !== newStatus) {
+        const payload = {
+          assignee_id: task.assignee_id,
+          project_id: props.projectId,
+          title: task.title || "",
+          description: task.description || "",
+          due_date: task.dueDate || "",
         priority: task.priority || "",
         status: newStatus
       };
