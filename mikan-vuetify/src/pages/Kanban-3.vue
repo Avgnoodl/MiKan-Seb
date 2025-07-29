@@ -130,7 +130,7 @@
 <script setup lang="ts">
 import { ref,computed, watch } from 'vue'
 import axios from 'axios'
-import { boards } from '@/stores/boards'
+import { boards, fetchBoards } from '@/stores/boards'
 import { useRoute } from "vue-router";
 import draggable from 'vuedraggable'
 import Board from '@/components/MyTasksComponent/Board3-1.vue'
@@ -221,7 +221,7 @@ if (boardIndex!==null && stageIndex!==null && taskIndex!==null) {
 return null
 })
 
-function handleTaskSave(taskId, updatedTask) {
+async function handleTaskSave(taskId, updatedTask) {
   const { boardIndex, stageIndex, taskIndex } = editingInfo.value;
 
   if (boardIndex !== null && stageIndex !== null && taskIndex !== null) {
@@ -240,14 +240,14 @@ function handleTaskSave(taskId, updatedTask) {
       project_id: project_id,
     };
 
-    axios.put(`http://localhost:8000/tasks/update_task/${taskId}`, payload)
-      .then(() => {
-        console.log(`✅ Task updated from dialog with Task ID : ${taskId}`, payload);
-        isTaskDialogOpen.value = false;
-      })
-      .catch(err => {
-        console.error("❌ Failed to update task from dialog:", err);
-      });
+    try {
+      await axios.put(`http://localhost:8000/tasks/update_task/${taskId}`, payload);
+      console.log(`✅ Task updated from dialog with Task ID : ${taskId}`, payload);
+      await fetchBoards();
+      isTaskDialogOpen.value = false;
+    } catch (err) {
+      console.error("❌ Failed to update task from dialog:", err);
+    }
   }
 }
 
