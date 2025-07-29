@@ -230,6 +230,7 @@ function handleTaskSave(taskId, updatedTask) {
     boards.value[boardIndex].stages[stageIndex].tasks[taskIndex] = {
         ...existingTask,
         ...updatedTask,
+        id: taskId,
         dueDate: updatedTask.due_date,
         assignee: assigneeOptions.value.find(a => a.id === updatedTask.assignee_id)?.name || existingTask.assignee
     };
